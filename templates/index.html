@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document AI Summarizer</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+   <div class="main-flex">
+     <div class="user-panel">
+       <h1>Document AI Summarizer</h1>
+       {% if not response %}
+       <form method="post" enctype="multipart/form-data" class="summarizer-form fade-in">
+          <label for="user_input">Paste text to summarize:</label>
+          <textarea name="user_input" id="user_input" placeholder="Paste your text here..."></textarea>
+          <div class="divider">or</div>
+          <label for="file_input" class="file-label">Upload a file</label>
+          <input type="file" id="file_input" name="file_input" accept=".txt,.pdf,.doc,.docx" style="display: none;">
+          <button type="submit">Summarize</button>
+       </form>
+       {% if notification %}
+          <div class="notification">{{ notification }}</div>
+       {% endif %}
+       {% else %}
+       <div class="response fade-in">
+          <div id="response">{{ response }}</div>
+          <form method="get">
+            <button type="submit" class="new-summary-btn">📄 Summarize next notes</button>
+          </form>
+       </div>
+       {% endif %}
+     </div>
+   </div>
+   <script>
+     const fileInput = document.getElementById('file_input');
+     const fileLabel = document.querySelector('.file-label');
+     let notificationDiv = null;
+     if(fileLabel && fileInput) {
+       fileLabel.addEventListener('click', function() {
+          fileInput.click();
+       });
+       fileInput.addEventListener('change', function() {
+          if (notificationDiv) notificationDiv.remove();
+          if (fileInput.files.length > 0) {
+              const file = fileInput.files[0];
+              notificationDiv = document.createElement('div');
+              notificationDiv.className = 'notification';
+              if (file.name.endsWith('.txt')) {
+                  notificationDiv.textContent = `File '${file.name}' selected and ready to upload.`;
+              } else {
+                  notificationDiv.textContent = 'Only .txt files are supported for now.';
+              }
+              document.querySelector('.user-panel').appendChild(notificationDiv);
+          }
+       });
+     }
+   </script>
+</body>
+</html>
