@@ -16,7 +16,10 @@
           <label for="user_input">Paste text to summarize:</label>
           <textarea name="user_input" id="user_input" placeholder="Paste your text here..."></textarea>
           <div class="divider">or</div>
-          <input type="file" id="file_input" name="file_input" accept=".txt" class="file-input">
+          <div id="drop-area" class="drop-area">
+            <span>Drag & drop .txt, .docx, .pdf file here</span>
+            <input type="file" id="file_input" name="file_input" accept=".txt,.docx,.pdf" class="file-input">
+          </div>
           <button type="submit">Summarize</button>
        </form>
        {% if notification %}
@@ -24,7 +27,7 @@
        {% endif %}
        {% else %}
        <div class="response fade-in">
-          <div id="response">{{ response }}</div>
+          <div id="response">{{ response|safe }}</div>
           <form method="get">
             <button type="submit" class="new-summary-btn">📄 Summarize next notes</button>
           </form>
@@ -35,6 +38,7 @@
    <script>
      const fileInput = document.getElementById('file_input');
      const form = document.getElementById('summarizer-form');
+     const dropArea = document.getElementById('drop-area');
      let notificationDiv = null;
      if(fileInput && form) {
        fileInput.addEventListener('change', function() {
@@ -43,16 +47,53 @@
               const file = fileInput.files[0];
               notificationDiv = document.createElement('div');
               notificationDiv.className = 'notification';
-              if (file.name.endsWith('.txt')) {
+              if (file.name.endsWith('.txt') || file.name.endsWith('.docx') || file.name.endsWith('.pdf')) {
                   notificationDiv.textContent = `File '${file.name}' selected and uploading...`;
                   document.querySelector('.user-panel').appendChild(notificationDiv);
                   form.submit();
               } else {
-                  notificationDiv.textContent = 'Only .txt files are supported.';
+                  notificationDiv.textContent = 'Only .txt, .docx, and .pdf files are supported.';
                   document.querySelector('.user-panel').appendChild(notificationDiv);
                   fileInput.value = '';
               }
           }
+       });
+     }
+
+     // Drag & Drop
+     if(dropArea && fileInput && form) {
+       ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+         dropArea.addEventListener(eventName, e => {
+           e.preventDefault();
+           e.stopPropagation();
+         });
+       });
+       ;['dragenter', 'dragover'].forEach(eventName => {
+         dropArea.addEventListener(eventName, () => dropArea.classList.add('highlight'));
+       });
+       ;['dragleave', 'drop'].forEach(eventName => {
+         dropArea.addEventListener(eventName, () => dropArea.classList.remove('highlight'));
+       });
+       dropArea.addEventListener('drop', e => {
+         if (notificationDiv) notificationDiv.remove();
+         const dt = e.dataTransfer;
+         const files = dt.files;
+         if (files.length > 0) {
+           const file = files[0];
+           if (file.name.endsWith('.txt') || file.name.endsWith('.docx') || file.name.endsWith('.pdf')) {
+             fileInput.files = files;
+             notificationDiv = document.createElement('div');
+             notificationDiv.className = 'notification';
+             notificationDiv.textContent = `File '${file.name}' selected and uploading...`;
+             document.querySelector('.user-panel').appendChild(notificationDiv);
+             form.submit();
+           } else {
+             notificationDiv = document.createElement('div');
+             notificationDiv.className = 'notification';
+             notificationDiv.textContent = 'Only .txt, .docx, and .pdf files are supported.';
+             document.querySelector('.user-panel').appendChild(notificationDiv);
+           }
+         }
        });
      }
    </script>

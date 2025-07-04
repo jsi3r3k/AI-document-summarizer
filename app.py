@@ -3,6 +3,9 @@ from flask import Flask, request, render_template, flash
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
+from docx import Document
+import PyPDF2
+import markdown
 
 app = Flask(__name__)
 CORS(app)
@@ -23,8 +26,16 @@ def index():
             if filename.endswith('.txt'):
                 user_input = file_input.read().decode("utf-8")
                 notification = f"File '{filename}' uploaded successfully."
+            elif filename.endswith('.docx'):
+                doc = Document(file_input)
+                user_input = "\n".join([para.text for para in doc.paragraphs])
+                notification = f"File '{filename}' (.docx) uploaded successfully."
+            elif filename.endswith('.pdf'):
+                pdf_reader = PyPDF2.PdfReader(file_input)
+                user_input = "\n".join([page.extract_text() or '' for page in pdf_reader.pages])
+                notification = f"File '{filename}' (.pdf) uploaded successfully."
             else:
-                notification = "Only .txt files are supported for now."
+                notification = "Only .txt, .docx, and .pdf files are supported."
         if not user_input:
             return render_template("index.html", response="Please provide some text or upload a file.", notification=notification)
         response = client.chat.completions.create(
@@ -32,10 +43,11 @@ def index():
             max_tokens=1000,
             temperature=0,
             messages=[
-                {"role": "user", "content": f"Summarize the following text:\n{user_input}"},
+                {"role": "user", "content": f"Summarize the following text:\n{user_input}. Format the summary using markdown for headings, lists, and bold important points. Make sure that the information you provide is accurate and concise."},
             ]
         )
-    return render_template("index.html", response=response.choices[0].message.content if response else None, notification=notification)
+    html_response = markdown.markdown(response.choices[0].message.content) if response else None
+    return render_template("index.html", response=html_response, notification=notification)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -128,6 +128,41 @@ input[type="file"] {
     color: #e6e0f8;
 }
 
+.drop-area {
+    border: 2px dashed #6c3ebf;
+    background: #1a1830;
+    color: #b18fff;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+    height: 80px;
+    border-radius: 8px;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+    font-size: 1rem;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    padding: 0;
+}
+.drop-area.highlight {
+    border-color: #b18fff;
+    background: #23203a;
+}
+.drop-area input[type="file"] {
+    opacity: 0;
+    position: absolute;
+    left: 0; top: 0; width: 100%; height: 100%;
+    cursor: pointer;
+    z-index: 2;
+}
+.drop-area span {
+    z-index: 1;
+    position: relative;
+    pointer-events: none;
+    display: block;
+}
+
 .file-input {
     width: 100%;
     margin: 0 0 12px 0;
@@ -151,6 +186,7 @@ input[type="file"] {
     font-size: 1rem;
     font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
     border-radius: 0;
+    margin-top: -10px;
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
     box-shadow: 0 2px 8px #6c3ebf22;
@@ -221,12 +257,27 @@ button[type="submit"]:hover {
     font-size: 1.08rem;
     line-height: 1.6;
     letter-spacing: 0.01em;
-    white-space: pre-line;
     animation: fadeIn 1.2s;
     background: none;
     box-shadow: none;
     padding: 0;
 }
+
+.response h1, .response h2, .response h3 {
+    color: #fff;
+    font-weight: 700;
+    margin-top: 1.2em;
+    margin-bottom: 0.5em;
+    line-height: 1.2;
+}
+.response h1 { font-size: 1.5em; border-bottom: 1px solid #6c3ebf; padding-bottom: 0.2em; }
+.response h2 { font-size: 1.25em; border-bottom: 1px solid #6c3ebf44; padding-bottom: 0.15em; }
+.response h3 { font-size: 1.1em; }
+.response b, .response strong { color: #b18fff; font-weight: 700; }
+.response ul, .response ol { margin: 1em 0 1em 1.5em; }
+.response li { margin-bottom: 0.3em; }
+.response p { margin: 0.7em 0; }
+.response code { background: #23203a; color: #b18fff; padding: 2px 6px; border-radius: 4px; font-size: 0.98em; }
 
 .response .placeholder {
     color: #6c3ebf;
