@@ -12,12 +12,11 @@
      <div class="user-panel">
        <h1>Document AI Summarizer</h1>
        {% if not response %}
-       <form method="post" enctype="multipart/form-data" class="summarizer-form fade-in">
+       <form method="post" enctype="multipart/form-data" class="summarizer-form fade-in" id="summarizer-form">
           <label for="user_input">Paste text to summarize:</label>
           <textarea name="user_input" id="user_input" placeholder="Paste your text here..."></textarea>
           <div class="divider">or</div>
-          <label for="file_input" class="file-label">Upload a file</label>
-          <input type="file" id="file_input" name="file_input" accept=".txt,.pdf,.doc,.docx" style="display: none;">
+          <input type="file" id="file_input" name="file_input" accept=".txt" class="file-input">
           <button type="submit">Summarize</button>
        </form>
        {% if notification %}
@@ -35,12 +34,9 @@
    </div>
    <script>
      const fileInput = document.getElementById('file_input');
-     const fileLabel = document.querySelector('.file-label');
+     const form = document.getElementById('summarizer-form');
      let notificationDiv = null;
-     if(fileLabel && fileInput) {
-       fileLabel.addEventListener('click', function() {
-          fileInput.click();
-       });
+     if(fileInput && form) {
        fileInput.addEventListener('change', function() {
           if (notificationDiv) notificationDiv.remove();
           if (fileInput.files.length > 0) {
@@ -48,11 +44,14 @@
               notificationDiv = document.createElement('div');
               notificationDiv.className = 'notification';
               if (file.name.endsWith('.txt')) {
-                  notificationDiv.textContent = `File '${file.name}' selected and ready to upload.`;
+                  notificationDiv.textContent = `File '${file.name}' selected and uploading...`;
+                  document.querySelector('.user-panel').appendChild(notificationDiv);
+                  form.submit();
               } else {
-                  notificationDiv.textContent = 'Only .txt files are supported for now.';
+                  notificationDiv.textContent = 'Only .txt files are supported.';
+                  document.querySelector('.user-panel').appendChild(notificationDiv);
+                  fileInput.value = '';
               }
-              document.querySelector('.user-panel').appendChild(notificationDiv);
           }
        });
      }
