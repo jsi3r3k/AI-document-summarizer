@@ -2,7 +2,7 @@
 body {
     background: #181629;
     color: #e6e0f8;
-    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Lexend', 'Montserrat', 'Segoe UI', Arial, sans-serif;
     min-height: 100vh;
     margin: 0;
     padding: 0;
@@ -13,7 +13,7 @@ body {
     transition: background 0.5s;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 .main-flex {
     display: flex;
@@ -50,7 +50,7 @@ h1 {
     margin-bottom: 24px;
     letter-spacing: 1px;
     color: #b18fff;
-    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Lexend', 'Montserrat', 'Segoe UI', Arial, sans-serif;
     text-shadow: 0 2px 16px #6c3ebf88;
     animation: fadeIn 1.2s;
 }
@@ -66,7 +66,7 @@ label {
     font-size: 1rem;
     color: #b18fff;
     margin-bottom: 4px;
-    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Montserrat', 'Lexend', 'Segoe UI', Arial, sans-serif;
 }
 
 textarea {
@@ -77,7 +77,7 @@ textarea {
     font-size: 1rem;
     min-height: 100px;
     resize: vertical;
-    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Montserrat', 'Lexend', 'Segoe UI', Arial, sans-serif;
     transition: border 0.2s, box-shadow 0.3s;
     box-shadow: 0 2px 12px #6c3ebf22;
 }
@@ -114,7 +114,7 @@ textarea:focus {
     cursor: pointer;
     display: inline-block;
     margin-bottom: 6px;
-    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Montserrat', 'Lexend', 'Segoe UI', Arial, sans-serif;
     transition: background 0.2s, color 0.2s, box-shadow 0.3s;
     box-shadow: 0 2px 8px #6c3ebf22;
 }
@@ -144,7 +144,7 @@ input[type="file"] {
     transition: border-color 0.2s, background 0.2s;
     position: relative;
     font-size: 1rem;
-    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Montserrat', 'Lexend', 'Segoe UI', Arial, sans-serif;
     padding: 0;
 }
 .drop-area.highlight {
@@ -172,7 +172,7 @@ input[type="file"] {
     background: transparent;
     color: #b18fff;
     border: none;
-    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Montserrat', 'Lexend', 'Segoe UI', Arial, sans-serif;
     font-size: 1rem;
     cursor: pointer;
 }
@@ -227,7 +227,7 @@ button[type="submit"] {
     cursor: pointer;
     margin-top: 8px;
     box-shadow: 0 2px 12px #6c3ebf44;
-    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Montserrat', 'Lexend', 'Segoe UI', Arial, sans-serif;
     transition: background 0.2s, color 0.2s, transform 0.15s, box-shadow 0.3s;
     animation: popIn 0.7s;
 }
@@ -245,7 +245,7 @@ button[type="submit"]:hover {
     border: 2px solid #6c3ebf;
     padding: 10px 14px;
     font-size: 1rem;
-    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Montserrat', 'Lexend', 'Segoe UI', Arial, sans-serif;
     box-shadow: 0 1px 8px #6c3ebf44;
     text-align: center;
     animation: fadeIn 0.7s;
@@ -255,7 +255,7 @@ button[type="submit"]:hover {
     width: 100%;
     max-width: 100%;
     min-height: 40px;
-    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Lexend', 'Montserrat', 'Segoe UI', Arial, sans-serif;
     color: #b18fff;
     font-size: 1.08rem;
     line-height: 1.6;
@@ -302,7 +302,7 @@ button[type="submit"]:hover {
     font-weight: 600;
     cursor: pointer;
     box-shadow: 0 2px 12px #6c3ebf44;
-    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Montserrat', 'Lexend', 'Segoe UI', Arial, sans-serif;
     transition: background 0.2s, color 0.2s, transform 0.15s, box-shadow 0.3s;
     border-radius: 6px;
     animation: popIn 0.7s;
@@ -313,6 +313,44 @@ button[type="submit"]:hover {
     color: #23203a;
     transform: scale(1.03);
     box-shadow: 0 0 24px #b18fff88;
+}
+
+.summary-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 30px;
+    align-items: stretch;
+}
+.summary-actions .download-btn {
+    width: 10px;
+    height: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 2rem;
+    text-decoration: none;
+    box-shadow: 0 2px 12px #6c3ebf44;
+    transition: background 0.2s, color 0.2s, transform 0.15s, box-shadow 0.3s;
+    cursor: pointer;
+    margin-top: 14px;
+    margin-right: 5px;
+}
+.summary-actions .download-btn:hover {
+    color: #23203a;
+    transform: scale(1.09);
+    box-shadow: 0 0 30px #a384ec;
+}
+.summary-actions form {
+    flex: 1 1 0%;
+    width: auto;
+    display: flex;
+}
+.summary-actions .new-summary-btn {
+    width: 100%;
+    margin-top: 0;
 }
 
 .fade-in {

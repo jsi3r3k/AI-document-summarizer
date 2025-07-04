@@ -17,8 +17,8 @@
           <textarea name="user_input" id="user_input" placeholder="Paste your text here..."></textarea>
           <div class="divider">or</div>
           <div id="drop-area" class="drop-area">
-            <span>Drag & drop .txt, .docx, .pdf file here</span>
-            <input type="file" id="file_input" name="file_input" accept=".txt,.docx,.pdf" class="file-input">
+            <span id="input-text">Drag & drop .txt, .docx, .pdf, .xlsx file here</span>
+            <input type="file" id="file_input" name="file_input" accept=".txt,.docx,.pdf,.csv,.xlsx,.zip" class="file-input">
           </div>
           <button type="submit">Summarize</button>
        </form>
@@ -28,9 +28,12 @@
        {% else %}
        <div class="response fade-in">
           <div id="response">{{ response|safe }}</div>
-          <form method="get">
-            <button type="submit" class="new-summary-btn">📄 Summarize next notes</button>
-          </form>
+          <div class="summary-actions">
+            <a href="/download-txt" class="download-btn" title="Pobierz podsumowanie TXT"><img src="../static/download.png" alt="download"></a>
+            <form method="get" style="display:inline; width: 100%;">
+              <button type="submit" class="new-summary-btn">📄 Summarize next notes</button>
+            </form>
+          </div>
        </div>
        {% endif %}
      </div>
