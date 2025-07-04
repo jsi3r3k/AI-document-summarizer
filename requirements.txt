@@ -5,3 +5,6 @@ flask-cors
 python-docx
 PyPDF2
 markdown
+langdetect
+pandas
+openpyxl

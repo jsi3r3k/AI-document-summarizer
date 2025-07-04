@@ -28,11 +28,12 @@ body {
 }
 
 .user-panel, .ai-panel {
-    width: 440px;
-    min-height: 480px;
+    width: 100%;
+    max-width: 800px;
+    min-height: 600px;
     background: #23203a;
     box-shadow: 0 8px 32px 0 #6c3ebf44;
-    padding: 36px 32px 28px 32px;
+    padding: 32px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -40,6 +41,7 @@ body {
     border: 2px solid #6c3ebf;
     animation: popIn 0.8s;
     justify-content: flex-start;
+    overflow-x: auto;
 }
 
 h1 {
@@ -251,6 +253,7 @@ button[type="submit"]:hover {
 
 .response {
     width: 100%;
+    max-width: 100%;
     min-height: 40px;
     font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
     color: #b18fff;
@@ -260,7 +263,11 @@ button[type="submit"]:hover {
     animation: fadeIn 1.2s;
     background: none;
     box-shadow: none;
-    padding: 0;
+    padding: 16px 18px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    overflow-x: auto;
+    box-sizing: border-box;
 }
 
 .response h1, .response h2, .response h3 {

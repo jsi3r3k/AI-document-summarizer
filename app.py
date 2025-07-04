@@ -6,6 +6,7 @@ import os
 from docx import Document
 import PyPDF2
 import markdown
+from langdetect import detect, LangDetectException
 
 app = Flask(__name__)
 CORS(app)
@@ -38,12 +39,16 @@ def index():
                 notification = "Only .txt, .docx, and .pdf files are supported."
         if not user_input:
             return render_template("index.html", response="Please provide some text or upload a file.", notification=notification)
+        try:
+            detected_lang = detect(user_input)
+        except LangDetectException:
+            detected_lang = "en"
         response = client.chat.completions.create(
             model="gpt-4o",
             max_tokens=1000,
             temperature=0,
             messages=[
-                {"role": "user", "content": f"Summarize the following text:\n{user_input}. Format the summary using markdown for headings, lists, and bold important points. Make sure that the information you provide is accurate and concise."},
+                {"role": "user", "content": f"Summarize the following text in {detected_lang}:\n{user_input}. Format the summary using markdown for headings, lists, and bold important points. Make sure that the information you provide is accurate and concise."},
             ]
         )
     html_response = markdown.markdown(response.choices[0].message.content) if response else None
