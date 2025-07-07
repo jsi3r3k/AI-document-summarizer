@@ -70,6 +70,18 @@ def index():
         if file_input and file_input.filename:
             filename = file_input.filename
             ext = os.path.splitext(filename)[1].lower()
+            allowed_mime_types = {
+                '.txt': ['text/plain'],
+                '.docx': ['application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+                '.pdf': ['application/pdf'],
+                '.csv': ['text/csv', 'application/vnd.ms-excel'],
+                '.xlsx': ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
+                '.zip': ['application/zip', 'application/x-zip-compressed', 'multipart/x-zip']
+            }
+            mime_type = file_input.mimetype
+            if ext in allowed_mime_types and mime_type not in allowed_mime_types[ext]:
+                notification = f"Niedozwolony typ MIME: {mime_type} dla pliku {filename}."
+                return render_template("index.html", response=None, notification=notification)
             if ext == '.zip':
                 user_input = extract_text_from_zip(file_input)
                 notification = f"ZIP file '{filename}' uploaded and extracted successfully."
@@ -80,7 +92,6 @@ def index():
                 notification = "Only .txt, .docx, .pdf, .csv, .xlsx, and .zip files are supported."
         if not user_input:
             return render_template("index.html", response="Please provide some text or upload a file.", notification=notification)
-        # Wykrywanie języka
         try:
             detected_lang = detect(user_input)
         except LangDetectException:
@@ -93,7 +104,6 @@ def index():
                 {"role": "user", "content": f"Summarize the following text in {detected_lang}:\n{user_input}. Format the summary using markdown for headings, lists, and bold important points. Make sure that the information you provide is accurate and concise."},
             ]
         )
-        # Zapisz plain summary do sesji
         session['plain_summary'] = response.choices[0].message.content
     html_response = markdown.markdown(response.choices[0].message.content) if response else None
     return render_template("index.html", response=html_response, notification=notification)
@@ -108,10 +118,9 @@ def download_txt():
     buffer.seek(0)
     return send_file(buffer, as_attachment=True, download_name="summary.txt", mimetype="text/plain")
 
-# Obsługa błędu zbyt dużego pliku
 @app.errorhandler(413)
 def request_entity_too_large(error):
-    return render_template("index.html", response=None, notification="Plik jest za duży. Maksymalny rozmiar to 20MB."), 413
+    return render_template("index.html", response=None, notification="File is too big. Maximum size is 20MB."), 413
 
 if __name__ == "__main__":
     app.run(debug=True)

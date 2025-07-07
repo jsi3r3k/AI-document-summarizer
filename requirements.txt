@@ -8,3 +8,4 @@ markdown
 langdetect
 pandas
 openpyxl
+pytest
